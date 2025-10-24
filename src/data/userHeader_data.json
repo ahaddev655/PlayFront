@@ -1,0 +1,34 @@
+[
+  {
+    "text": "RPG",
+    "path": "rpg"
+  },
+  {
+    "text": "Action",
+    "path": "action"
+  },
+  {
+    "text": "Fighting",
+    "path": "fighting"
+  },
+  {
+    "text": "Adventure",
+    "path": "adventure"
+  },
+  {
+    "text": "Simulation",
+    "path": "simulation"
+  },
+  {
+    "text": "Survival",
+    "path": "survival"
+  },
+  {
+    "text": "Puzzle",
+    "path": "puzzle"
+  },
+  {
+    "text": "Racing",
+    "path": "racing"
+  }
+]
