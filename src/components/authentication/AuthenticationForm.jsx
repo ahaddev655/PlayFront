@@ -85,9 +85,6 @@ function AuthenticationForm() {
       password: "",
     });
     setConfirmPassword("");
-    if (inputRef.current) {
-      inputRef.current.value = "";
-    }
   };
   return (
     <form onSubmit={handleSubmit}>
