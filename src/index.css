@@ -1,5 +1,5 @@
 @import "tailwindcss";
 
 body {
-    @apply h-screen bg-linear-to-tl from-black via-red-950 to-black relative
+    @apply h-screen bg-linear-to-tl from-black via-red-950 to-black relative text-white
 }

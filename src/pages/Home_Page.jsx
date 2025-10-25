@@ -1,12 +1,8 @@
 import React from "react";
-import User_Header from "../components/User_Header";
+import User_Header from "../components/main/User_Header";
 
 function Home_Page() {
-  return (
-    <div>
-      
-    </div>
-  );
+  return <div></div>;
 }
 
 export default Home_Page;

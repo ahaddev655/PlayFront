@@ -3,6 +3,7 @@ import "./App.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Home_Page from "./pages/Home_Page";
 import MainLayout from "./layouts/MainLayout";
+import Authentication_Page from "./pages/Authentication_Page";
 
 function App() {
   const router = createBrowserRouter([
@@ -10,6 +11,10 @@ function App() {
       path: "/",
       element: <MainLayout />,
       children: [
+        {
+          index: true,
+          element: <Home_Page />,
+        },
         {
           path: "deals",
           element: "Deals_Page",
@@ -22,7 +27,7 @@ function App() {
     },
     {
       path: "/auth",
-      element: "Authentication_Page",
+      element: <Authentication_Page />,
     },
     {
       path: "/wishlist",

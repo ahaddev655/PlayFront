@@ -3,14 +3,14 @@ import { Link, NavLink, useNavigate } from "react-router-dom";
 import { IoChevronDown, IoMenu } from "react-icons/io5";
 import { FaHeart, FaUser } from "react-icons/fa";
 import { FiX } from "react-icons/fi";
-import userHeader_data from "../data/userHeader_data.json";
+import userHeader_data from "../../data/userHeader_data.json";
 
 function User_Header() {
   const [categoryToggle, setCategoryToggle] = useState(false);
   const categoryRef = useRef(null);
   const [wishList, setWishList] = useState(false);
   const [profile, setProfile] = useState(false);
-  const [menuToggle, setMenuToggle] = useState(true);
+  const [menuToggle, setMenuToggle] = useState(false);
   const navigate = useNavigate();
 
   const wishListRedirectFunc = (e) => {
@@ -48,7 +48,7 @@ function User_Header() {
   }, []);
 
   return (
-    <div className="xl:px-12 lg:px-6 md:px-3 sm:px-1.5 px-1 flex items-center justify-between bg-black shadow-xl py-3">
+    <div className="xl:px-12 lg:px-6 md:px-3 sm:px-1.5 px-1 flex items-center justify-between bg-gray-900 shadow-xl py-3">
       {/* Logo */}
       <NavLink to={"/"} className="text-2xl text-white font-medium">
         PlayFront
@@ -126,13 +126,13 @@ function User_Header() {
       {/* Extra Icons */}
       <ul className="lg:flex hidden items-center justify-center gap-5">
         <button
-          className="text-white hover:text-red-600 transition-colors"
+          className="text-white hover:text-red-600 transition-colors hover:bg-red-600/20 grid place-items-center w-10 h-10 rounded-md"
           onClick={wishListRedirectFunc}
         >
           <FaHeart />
         </button>
         <button
-          className="text-white hover:text-red-600 transition-colors"
+          className="text-white hover:text-red-600 transition-colors hover:bg-red-600/20 grid place-items-center w-10 h-10 rounded-md"
           onClick={profileRedirectFunc}
         >
           <FaUser />
@@ -158,7 +158,7 @@ function User_Header() {
         }`}
       >
         <div
-          className={`absolute left-0 top-0 h-screen sm:w-64 w-full bg-black py-3 transition-transform duration-300 ${
+          className={`absolute left-0 top-0 h-screen sm:w-64 w-full bg-gray-900 py-3 transition-transform duration-300 ${
             menuToggle ? "translate-x-0" : "-translate-x-full"
           }`}
         >
