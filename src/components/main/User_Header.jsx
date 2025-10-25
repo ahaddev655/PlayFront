@@ -48,7 +48,7 @@ function User_Header() {
   }, []);
 
   return (
-    <div className="xl:px-12 lg:px-6 md:px-3 sm:px-1.5 px-1 flex items-center justify-between bg-gray-900 shadow-xl py-3">
+    <div className="section flex items-center justify-between bg-gray-900 shadow-xl py-3">
       {/* Logo */}
       <NavLink to={"/"} className="text-2xl text-white font-medium">
         PlayFront
@@ -86,7 +86,7 @@ function User_Header() {
           />
           {/* Dropdown Menu */}
           {categoryToggle && (
-            <ul className="absolute top-full left-0 mt-2 bg-white/20 backdrop-blur-md rounded-lg shadow-lg p-2 w-40">
+            <ul className="absolute z-10 top-full left-0 mt-2 bg-white/20 backdrop-blur-md rounded-lg shadow-lg p-2 w-40">
               {userHeader_data.map((category, i) => (
                 <Link to={`/categories/${category.path}`} key={i}>
                   <li className="hover:bg-red-600/20  text-white hover:text-red-600 transition-colors font-medium px-3 py-1 rounded-md cursor-pointer">
@@ -153,137 +153,148 @@ function User_Header() {
 
       {/* Mobile-Canvas */}
       <div
-        className={`absolute inset-0 h-screen w-full bg-black/50 backdrop-blur-md transition-opacity duration-300 lg:hidden block ${
+        className={`fixed inset-0 h-screen w-full bg-black/60 backdrop-blur-sm overflow-y-auto transition-all duration-300 ease-in-out lg:hidden block z-50 ${
           menuToggle ? "opacity-100" : "opacity-0 pointer-events-none"
         }`}
       >
+        {/* Sidebar Container */}
         <div
-          className={`absolute left-0 top-0 h-screen sm:w-64 w-full bg-gray-900 py-3 transition-transform duration-300 ${
+          className={`absolute left-0 top-0 min-h-screen sm:w-72 w-full bg-gray-900 py-5 px-4 flex flex-col justify-between shadow-2xl transition-transform duration-300 ease-in-out ${
             menuToggle ? "translate-x-0" : "-translate-x-full"
           }`}
         >
-          {/* Cross Icon */}
-          <div className="px-3 text-end">
-            <button type="button">
-              <FiX
-                className="text-3xl text-red-600 hover:text-white transition-colors"
+          {/* Top Section */}
+          <div>
+            {/* Close Button */}
+            <div className="text-end mb-4">
+              <button
+                type="button"
                 onClick={(e) => {
                   e.preventDefault();
                   setMenuToggle(false);
                 }}
-              />
-            </button>
-          </div>
-
-          {/* Logo */}
-          <div className="px-3 text-center">
-            <NavLink to={"/"} className="text-2xl text-white font-medium">
-              PlayFront
-            </NavLink>
-          </div>
-
-          {/* Separator */}
-          <hr className="my-3 text-red-600" />
-
-          {/* NavLinks */}
-          <ul className="flex flex-col gap-5 px-3">
-            {/* Home */}
-            <NavLink
-              onClick={() => setMenuToggle(false)}
-              to={"/"}
-              className={({ isActive }) =>
-                `text-lg transition-colors font-medium ${
-                  isActive ? "text-red-600" : "text-white hover:text-red-600"
-                }`
-              }
-            >
-              <li>Home</li>
-            </NavLink>
-
-            {/* Category Dropdown */}
-            <li
-              className={`text-lg cursor-pointer flex flex-col gap-1 font-medium ${
-                categoryToggle
-                  ? "text-red-600"
-                  : "text-white hover:text-red-600 transition-colors"
-              }`}
-              onClick={() => setCategoryToggle(!categoryToggle)}
-            >
-              <div
-                className="flex items-center gap-1"
-                onClick={() => setCategoryToggle(!categoryToggle)}
+                className="text-red-500 hover:text-white transition-colors"
               >
-                Categories
-                <IoChevronDown
-                  className={`transition-transform duration-150 ease-linear ${
-                    categoryToggle ? "rotate-180" : "rotate-0"
+                <FiX className="text-3xl" />
+              </button>
+            </div>
+
+            {/* Logo */}
+            <div className="text-center mb-5">
+              <NavLink
+                to={"/"}
+                className="text-3xl font-bold text-white tracking-wide"
+                onClick={() => setMenuToggle(false)}
+              >
+                <span className="text-red-600">Play</span>Front
+              </NavLink>
+            </div>
+
+            <hr className="border-red-600 mb-6" />
+
+            {/* Navigation Links */}
+            <ul className="flex flex-col gap-4">
+              {/* Home */}
+              <NavLink
+                to={"/"}
+                onClick={() => setMenuToggle(false)}
+                className={({ isActive }) =>
+                  `text-lg font-medium rounded-md px-3 py-2 transition-colors ${
+                    isActive
+                      ? "bg-red-600 text-white"
+                      : "text-gray-300 hover:bg-red-600/10 hover:text-red-500"
+                  }`
+                }
+              >
+                Home
+              </NavLink>
+
+              {/* Categories */}
+              <li className="text-lg font-medium">
+                <button
+                  className={`w-full flex items-center justify-between px-3 py-2 rounded-md transition-colors ${
+                    categoryToggle
+                      ? "bg-red-600 text-white"
+                      : "text-gray-300 hover:bg-red-600/10 hover:text-red-500"
                   }`}
-                />
-              </div>
+                  onClick={() => setCategoryToggle(!categoryToggle)}
+                >
+                  <span>Categories</span>
+                  <IoChevronDown
+                    className={`transition-transform duration-200 ${
+                      categoryToggle ? "rotate-180" : "rotate-0"
+                    }`}
+                  />
+                </button>
 
-              {/* Dropdown Menu (mobile) */}
-              {categoryToggle && (
-                <ul className="flex flex-col mt-2">
-                  {userHeader_data.map((category, i) => (
-                    <Link
-                      to={`/categories/${category.path}`}
-                      key={i}
-                      onClick={() => setMenuToggle(false)}
-                    >
-                      <li className="px-3 py-1 rounded-md cursor-pointer text-white">
-                        {category.text}
-                      </li>
-                    </Link>
-                  ))}
-                </ul>
-              )}
-            </li>
+                {/* Dropdown */}
+                {categoryToggle && (
+                  <ul className="flex flex-col mt-2 pl-4 space-y-1 border-l border-red-600/40">
+                    {userHeader_data.map((category, i) => (
+                      <Link
+                        to={`/categories/${category.path}`}
+                        key={i}
+                        onClick={() => setMenuToggle(false)}
+                      >
+                        <li className="px-3 py-1.5 rounded-md text-gray-300 hover:bg-red-600/20 hover:text-white transition-colors">
+                          {category.text}
+                        </li>
+                      </Link>
+                    ))}
+                  </ul>
+                )}
+              </li>
 
-            {/* Deals */}
-            <NavLink
-              to={"deals"}
-              onClick={() => setMenuToggle(false)}
-              className={({ isActive }) =>
-                `text-lg transition-colors font-medium ${
-                  isActive ? "text-red-600" : "text-white hover:text-red-600"
-                }`
-              }
-            >
-              <li>Deals</li>
-            </NavLink>
+              {/* Deals */}
+              <NavLink
+                to={"deals"}
+                onClick={() => setMenuToggle(false)}
+                className={({ isActive }) =>
+                  `text-lg font-medium rounded-md px-3 py-2 transition-colors ${
+                    isActive
+                      ? "bg-red-600 text-white"
+                      : "text-gray-300 hover:bg-red-600/10 hover:text-red-500"
+                  }`
+                }
+              >
+                Deals
+              </NavLink>
 
-            {/* Up-Coming Games */}
-            <NavLink
-              onClick={() => setMenuToggle(false)}
-              to={"upcoming-games"}
-              className={({ isActive }) =>
-                `text-lg transition-colors font-medium ${
-                  isActive ? "text-red-600" : "text-white hover:text-red-600"
-                }`
-              }
-            >
-              <li>UpComing Games</li>
-            </NavLink>
-          </ul>
+              {/* Upcoming Games */}
+              <NavLink
+                to={"upcoming-games"}
+                onClick={() => setMenuToggle(false)}
+                className={({ isActive }) =>
+                  `text-lg font-medium rounded-md px-3 py-2 transition-colors ${
+                    isActive
+                      ? "bg-red-600 text-white"
+                      : "text-gray-300 hover:bg-red-600/10 hover:text-red-500"
+                  }`
+                }
+              >
+                UpComing Games
+              </NavLink>
+            </ul>
+          </div>
 
-          {/* Separator */}
-          <hr className="my-3 text-red-600" />
-
-          {/* Extra Icons */}
-          <ul className="flex items-center gap-5 px-3">
-            <button
-              className="text-white hover:text-red-600 transition-colors"
-              onClick={wishListRedirectFunc}
-            >
-              <FaHeart />
-            </button>
-            <button
-              className="text-white hover:text-red-600 transition-colors"
-              onClick={profileRedirectFunc}
-            >
-              <FaUser />
-            </button>
-          </ul>
+          {/* Bottom Section */}
+          <div>
+            <hr className="border-red-600 my-4" />
+            <div className="flex items-center justify-around">
+              <button
+                className="text-gray-300 hover:text-red-500 transition-colors"
+                onClick={wishListRedirectFunc}
+              >
+                <FaHeart className="text-2xl" />
+              </button>
+              <button
+                className="text-gray-300 hover:text-red-500 transition-colors"
+                onClick={profileRedirectFunc}
+              >
+                <FaUser className="text-2xl" />
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     </div>

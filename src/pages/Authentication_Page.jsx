@@ -4,7 +4,6 @@ import "react-toastify/dist/ReactToastify.css";
 import AuthenticationForm from "../components/authentication/AuthenticationForm";
 
 function Authentication_Page() {
-
   return (
     <div className="flex items-center justify-center min-h-screen overflow-y-auto">
       <ToastContainer
