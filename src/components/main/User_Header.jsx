@@ -8,7 +8,7 @@ import userHeader_data from "../../data/userHeader_data.json";
 function User_Header() {
   const [categoryToggle, setCategoryToggle] = useState(false);
   const categoryRef = useRef(null);
-  const [wishList, setWishList] = useState(false);
+  const [wishList, setWishList] = useState(true);
   const [profile, setProfile] = useState(false);
   const [menuToggle, setMenuToggle] = useState(false);
   const navigate = useNavigate();

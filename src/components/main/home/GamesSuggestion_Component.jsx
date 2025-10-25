@@ -25,10 +25,9 @@ function GamesSuggestion_Component() {
       !formData.name ||
       !formData.email ||
       !formData.gameTitle ||
-      !formData.gameGenre ||
       !formData.suggestion
     ) {
-      toast.error("⚠️ Please fill all the fields");
+      toast.error("Please fill all the fields");
       return;
     }
 
