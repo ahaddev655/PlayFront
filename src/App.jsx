@@ -7,6 +7,7 @@ import Authentication_Page from "./pages/Authentication_Page";
 import UserProfile_Page from "./pages/UserProfile_Page";
 import WishList_Page from "./pages/WishList_Page";
 import UpcomingGames_Page from "./pages/UpcomingGames_Page";
+import Deals_Page from "./pages/Deals_Page";
 
 function App() {
   const router = createBrowserRouter([
@@ -20,7 +21,7 @@ function App() {
         },
         {
           path: "deals",
-          element: "Deals_Page",
+          element: <Deals_Page />,
         },
         {
           path: "upcoming-games",

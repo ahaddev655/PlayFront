@@ -1,14 +1,8 @@
-import React, { useState } from "react";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Autoplay } from "swiper/modules";
-import { FaArrowLeft, FaTags, FaTv } from "react-icons/fa6";
-import "swiper/css";
-import "swiper/css/autoplay";
-import { FaTimes } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { FaTv, FaHeart } from "react-icons/fa6";
 
 function UpcomingGames_Page() {
-  const [selectedGame, setSelectedGame] = useState(null);
+  const [wishlist, setWishlist] = useState([]);
 
   const games = [
     {
@@ -68,86 +62,69 @@ function UpcomingGames_Page() {
     },
   ];
 
+  // Load wishlist from localStorage
+  useEffect(() => {
+    const saved = JSON.parse(localStorage.getItem("wishlist")) || [];
+    setWishlist(saved);
+  }, []);
+
+  // Add or remove from wishlist
+  const toggleWishlist = (game) => {
+    const updatedWishlist = wishlist.some((item) => item.id === game.id)
+      ? wishlist.filter((item) => item.id !== game.id)
+      : [...wishlist, game];
+
+    setWishlist(updatedWishlist);
+    localStorage.setItem("wishlist", JSON.stringify(updatedWishlist));
+  };
+
+  const isInWishlist = (id) => wishlist.some((item) => item.id === id);
+
   return (
     <div className="my-12 section">
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-        {games.map((game) => (
-          <div key={game.id}>
-            <div
-              onClick={() => setSelectedGame(game)}
-              className="relative group cursor-pointer border-2 border-red-600 overflow-hidden p-1"
-            >
-              {/* Game Image */}
-              <img
-                src={game.image}
-                alt={game.name}
-                className="w-full h-96 object-cover"
-              />
-
-              {/* Overlay */}
-              <div className="absolute inset-0 bg-linear-to-b from-gray-900/80 via-black/80 to-red-600/80 opacity-0 group-hover:opacity-100 -translate-y-full group-hover:translate-y-0 transition-all duration-500"></div>
-
-              {/* Game Name */}
-              <h2 className="absolute -right-[500px] text-center top-1/2 text-xl font-semibold text-white group-hover:right-1/2 group-hover:translate-x-1/2 transition-all duration-500">
-                {game.name}
-              </h2>
-
-              <div className="absolute left-3.5 bottom-3.5 flex items-center gap-2 transform group-hover:translate-y-[100px] transition-transform duration-500">
-                <FaTv className="text-red-500" />
-                <p className="text-xs font-medium">{game.platform}</p>
-              </div>
-            </div>
-          </div>
-        ))}
-      </div>
-
-      {/* Popup Modal */}
-      {selectedGame && (
-        <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 px-3">
-          <div className="bg-gray-900 border-2 border-red-600 rounded-xl shadow-xl p-6 max-w-lg w-full text-white">
-            {/* Modal Header */}
-            <div className="flex justify-between items-center mb-4">
-              <h2 className="text-2xl font-semibold text-red-500">
-                {selectedGame.name}
-              </h2>
-              <button
-                onClick={() => setSelectedGame(null)}
-                className="text-red-500 hover:text-white transition"
-              >
-                <FaTimes size={20} />
-              </button>
-            </div>
-
-            <img
-              src={selectedGame.image}
-              alt={selectedGame.name}
-              className="w-full h-64 object-cover rounded-lg mb-4"
-            />
-            <p className="text-sm text-gray-300 mb-3">
-              {selectedGame.category} — {selectedGame.platform}
-            </p>
-            <p className="text-gray-200 mb-4">{selectedGame.description}</p>
-
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <FaTags className="text-red-500" />
-                <span className="font-medium">{selectedGame.price}</span>
-              </div>
-              <Link
-                to={`https://wa.me/923165837272?text=${encodeURIComponent(
-                  `I have to buy ${selectedGame.name}`
-                )}`}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <button className="bg-red-600 hover:bg-red-700 px-4 py-2 rounded-lg font-medium transition">
-                  Buy Now
+        {games.map((game) => {
+          const liked = isInWishlist(game.id);
+          return (
+            <div key={game.id}>
+              <div className="relative group border-2 border-red-600 overflow-hidden p-1">
+                {/* Heart Button */}
+                <button
+                  onClick={() => toggleWishlist(game)}
+                  className="absolute top-3 right-3 z-10"
+                >
+                  <FaHeart
+                    className={`text-2xl transition-colors ${
+                      liked ? "text-red-500" : "text-white hover:text-red-500"
+                    }`}
+                  />
                 </button>
-              </Link>
+
+                {/* Game Image */}
+                <img
+                  src={game.image}
+                  alt={game.name}
+                  className="w-full h-96 object-cover"
+                />
+
+                {/* Overlay */}
+                <div className="absolute inset-0 bg-linear-to-b from-gray-900/80 via-black/80 to-red-600/80 opacity-0 group-hover:opacity-100 -translate-y-full group-hover:translate-y-0 transition-all duration-500"></div>
+
+                {/* Game Name */}
+                <h2 className="absolute -right-[500px] text-center top-1/2 text-xl font-semibold text-white group-hover:right-1/2 group-hover:translate-x-1/2 transition-all duration-500">
+                  {game.name}
+                </h2>
+
+                {/* Platform Info */}
+                <div className="absolute left-3.5 bottom-3.5 flex items-center gap-2 transform group-hover:translate-y-[100px] transition-transform duration-500">
+                  <FaTv className="text-red-500" />
+                  <p className="text-xs font-medium">{game.platform}</p>
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
-      )}
+          );
+        })}
+      </div>
     </div>
   );
 }
