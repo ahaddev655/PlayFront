@@ -1,7 +1,7 @@
 import React from "react";
 import { Bounce, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import AuthenticationForm from "../components/authentication/AuthenticationForm";
+import AuthenticationForm from "../../components/authentication/AuthenticationForm";
 
 function Authentication_Page() {
   return (

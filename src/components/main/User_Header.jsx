@@ -88,7 +88,7 @@ function User_Header() {
           {categoryToggle && (
             <ul className="absolute z-10 top-full left-0 mt-2 bg-white/20 backdrop-blur-md rounded-lg shadow-lg p-2 w-40">
               {userHeader_data.map((category, i) => (
-                <Link to={`/categories/${category.path}`} key={i}>
+                <Link to={`/category/${category.path}`} key={i}>
                   <li className="hover:bg-red-600/20  text-white hover:text-red-600 transition-colors font-medium px-3 py-1 rounded-md cursor-pointer">
                     {category.text}
                   </li>
@@ -232,7 +232,7 @@ function User_Header() {
                   <ul className="flex flex-col mt-2 pl-4 space-y-1 border-l border-red-600/40">
                     {userHeader_data.map((category, i) => (
                       <Link
-                        to={`/categories/${category.path}`}
+                        to={`/category/${category.path}`}
                         key={i}
                         onClick={() => setMenuToggle(false)}
                       >

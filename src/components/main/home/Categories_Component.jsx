@@ -13,7 +13,7 @@ function Categories_Component() {
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {userHeader_data.map((category, i) => (
           <Link
-            to={`/categories/${category.path}`}
+            to={`/category/${category.path}`}
             key={i}
             className="group relative"
           >

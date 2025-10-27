@@ -1,13 +1,14 @@
 import React from "react";
 import "./App.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import Home_Page from "./pages/Home_Page";
+import Home_Page from "./pages/main/Home_Page";
 import MainLayout from "./layouts/MainLayout";
-import Authentication_Page from "./pages/Authentication_Page";
-import UserProfile_Page from "./pages/UserProfile_Page";
-import WishList_Page from "./pages/WishList_Page";
-import UpcomingGames_Page from "./pages/UpcomingGames_Page";
-import Deals_Page from "./pages/Deals_Page";
+import Authentication_Page from "./pages/authentication/Authentication_Page";
+import UserProfile_Page from "./pages/main/UserProfile_Page";
+import WishList_Page from "./pages/main/WishList_Page";
+import UpcomingGames_Page from "./pages/main/UpcomingGames_Page";
+import Deals_Page from "./pages/main/Deals_Page";
+import CategoryLayout from "./layouts/CategoryLayout";
 
 function App() {
   const router = createBrowserRouter([
@@ -27,11 +28,11 @@ function App() {
           path: "upcoming-games",
           element: <UpcomingGames_Page />,
         },
+        {
+          path: "wishlist",
+          element: <WishList_Page />,
+        },
       ],
-    },
-    {
-      path: "wishlist",
-      element: <WishList_Page />,
     },
     {
       path: "/auth",
@@ -40,6 +41,10 @@ function App() {
     {
       path: "/user-profile",
       element: <UserProfile_Page />,
+    },
+    {
+      path: "/category/",
+      element: <CategoryLayout />,
     },
   ]);
   return <RouterProvider router={router} />;
