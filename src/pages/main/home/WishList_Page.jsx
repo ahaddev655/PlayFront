@@ -38,7 +38,7 @@ function WishList_Page() {
             <div key={game.id}>
               <div
                 onClick={() => setSelectedGame(game)}
-                className="relative group cursor-pointer border-2 border-red-600 overflow-hidden p-1"
+                className="relative group border-2 border-red-600 overflow-hidden p-1"
               >
                 <button
                   onClick={(e) => {
