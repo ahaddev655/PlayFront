@@ -9,7 +9,6 @@ function User_Header() {
   const [categoryToggle, setCategoryToggle] = useState(false);
   const categoryRef = useRef(null);
   const [wishList, setWishList] = useState(true);
-  const [profile, setProfile] = useState(true);
   const [menuToggle, setMenuToggle] = useState(false);
   const navigate = useNavigate();
 
@@ -20,15 +19,6 @@ function User_Header() {
       return;
     }
     navigate("/wishlist");
-  };
-
-  const profileRedirectFunc = (e) => {
-    e.preventDefault();
-    if (profile === false) {
-      navigate("/auth");
-      return;
-    }
-    navigate("/user-profile");
   };
 
   useEffect(() => {
@@ -130,12 +120,6 @@ function User_Header() {
           onClick={wishListRedirectFunc}
         >
           <FaHeart />
-        </button>
-        <button
-          className="text-white hover:text-red-600 transition-colors hover:bg-red-600/20 grid place-items-center w-10 h-10 rounded-md"
-          onClick={profileRedirectFunc}
-        >
-          <FaUser />
         </button>
       </ul>
 
@@ -286,12 +270,6 @@ function User_Header() {
                 onClick={wishListRedirectFunc}
               >
                 <FaHeart className="text-2xl" />
-              </button>
-              <button
-                className="text-gray-300 hover:text-red-500 transition-colors"
-                onClick={profileRedirectFunc}
-              >
-                <FaUser className="text-2xl" />
               </button>
             </div>
           </div>
