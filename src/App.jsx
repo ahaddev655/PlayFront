@@ -40,10 +40,6 @@ function App() {
       element: <Authentication_Page />,
     },
     {
-      path: "/user-profile",
-      element: <UserProfile_Page />,
-    },
-    {
       path: "/category/",
       element: <CategoryLayout />,
       children: [
