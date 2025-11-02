@@ -1,0 +1,25 @@
+@import "tailwindcss";
+
+body {
+  @apply h-screen bg-linear-to-tl from-black via-red-950 to-black relative text-white;
+}
+
+.section {
+  @apply xl:px-12 lg:px-6 md:px-3 sm:px-1.5 px-1;
+}
+
+::-webkit-scrollbar {
+  @apply bg-black w-2 h-2;
+}
+
+::-webkit-scrollbar-track {
+  @apply rounded-[5px] bg-black;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-red-700 rounded-[5px] transition-colors;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-red-600;
+}
