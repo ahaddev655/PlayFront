@@ -10,8 +10,8 @@ function Deals_Page() {
       id: 1,
       name: "Call of Duty: Modern Warfare III",
       platform: "PC",
-      oldPrice:  59.99,
-      newPrice:  39.99,
+      oldPrice: 59.99,
+      newPrice: 39.99,
       description:
         "Experience intense combat, cinematic missions, and cutting-edge graphics in the latest entry of the Modern Warfare saga.",
       image:
@@ -21,8 +21,8 @@ function Deals_Page() {
       id: 2,
       name: "Grand Theft Auto V",
       platform: "PC",
-      oldPrice:  29.99,
-      newPrice:  19.99,
+      oldPrice: 29.99,
+      newPrice: 19.99,
       description:
         "Explore Los Santos in one of the most detailed open-world games ever made. Switch between three characters in a massive storyline.",
       image:
@@ -32,8 +32,8 @@ function Deals_Page() {
       id: 3,
       name: "Arcadegeddon",
       platform: "PC",
-      oldPrice:  19.99,
-      newPrice:  9.99,
+      oldPrice: 19.99,
+      newPrice: 9.99,
       description:
         "Battle together with friends in this colorful co-op shooter featuring fast-paced action and vibrant arenas.",
       image:
@@ -43,8 +43,8 @@ function Deals_Page() {
       id: 4,
       name: "Cyberpunk 2077: Phantom Liberty",
       platform: "PC",
-      oldPrice:  49.99,
-      newPrice:  39.99,
+      oldPrice: 49.99,
+      newPrice: 39.99,
       description:
         "Step into Night City once more in this gripping expansion, featuring new missions, areas, and the return of V.",
       image:
@@ -54,8 +54,8 @@ function Deals_Page() {
       id: 5,
       name: "Minecraft: Bedrock Edition",
       platform: "PC",
-      oldPrice:  19.99,
-      newPrice:  9.99,
+      oldPrice: 19.99,
+      newPrice: 9.99,
       description:
         "Build, explore, and survive in a world of blocks — a timeless classic loved by millions worldwide.",
       image:
@@ -95,7 +95,9 @@ function Deals_Page() {
                 <span className="text-gray-400 line-through text-sm">
                   PKR {deal.oldPrice}
                 </span>
-                <span className="text-red-500 font-bold">PKR {deal.newPrice}</span>
+                <span className="text-red-500 font-bold">
+                  PKR {deal.newPrice}
+                </span>
               </div>
             </div>
           </div>
@@ -134,7 +136,7 @@ function Deals_Page() {
               </div>
               <Link
                 to={`https://wa.me/923165837272?text=${encodeURIComponent(
-                  `I want to buy deal and the selected deal: ${selectedDeal.name}`
+                  `I want to buy deal and the selected deal: ${selectedDeal.name}`,
                 )}`}
                 target="_blank"
                 rel="noopener noreferrer"

@@ -153,7 +153,7 @@ function LastestUploadedGames_Component() {
               </div>
               <Link
                 to={`https://wa.me/923165837272?text=${encodeURIComponent(
-                  `I have to buy ${selectedGame.name}`
+                  `I have to buy ${selectedGame.name}`,
                 )}`}
                 target="_blank"
                 rel="noopener noreferrer"

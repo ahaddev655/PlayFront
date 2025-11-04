@@ -87,7 +87,7 @@ function Categories_Component() {
   // Detect category based on URL
   useEffect(() => {
     const matchedCategory = gameCategoryData.find(
-      (category) => category.path === location.pathname
+      (category) => category.path === location.pathname,
     );
     setActiveCategory(matchedCategory || null);
   }, [location.pathname]);
@@ -173,7 +173,7 @@ function Categories_Component() {
                 </div>
                 <Link
                   to={`https://wa.me/923165837272?text=${encodeURIComponent(
-                    `I want to buy ${selectedGame.name}`
+                    `I want to buy ${selectedGame.name}`,
                   )}`}
                   target="_blank"
                   rel="noopener noreferrer"

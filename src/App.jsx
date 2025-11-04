@@ -8,7 +8,7 @@ import UpcomingGames_Page from "./pages/main/UpcomingGames_Page";
 import Deals_Page from "./pages/main/Deals_Page";
 import CategoryLayout from "./layouts/CategoryLayout";
 import Categories_Component from "./components/main/Categories_Component";
-import Home_Page from './pages/main/Home_Page';
+import Home_Page from "./pages/main/Home_Page";
 import UserProfile from "./pages/main/profile/UserProfile";
 
 function App() {
