@@ -1,10 +1,11 @@
 import axios from "axios";
 import React, { useRef, useState } from "react";
-import { FaGoogle } from "react-icons/fa";
 import { IoCameraOutline } from "react-icons/io5";
 import { LuEye, LuEyeClosed } from "react-icons/lu";
+import { FaGoogle } from "react-icons/fa";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useGoogleLogin } from "@react-oauth/google";
 
 function AuthenticationForm() {
   const inputRef = useRef(null);
@@ -14,52 +15,51 @@ function AuthenticationForm() {
     username: "",
     email: "",
     password: "",
+    file: null,
   });
   const [showPassword, setShowPassword] = useState(false);
 
+  // 📸 File input click
   const handleClick = () => {
     inputRef.current.click();
   };
 
-  // File Input Handler
+  // 📤 File upload
   const handleChange = (e) => {
     const file = e.target.files[0];
     if (file) {
-      // Clean previous object URL
       if (formData.profileImage) {
         URL.revokeObjectURL(formData.profileImage);
       }
-
       const profileImageURL = URL.createObjectURL(file);
       setFormData((prev) => ({
         ...prev,
         profileImage: profileImageURL,
-        file, // Keep the original file for backend upload if needed
+        file,
       }));
     }
   };
 
-  // Input Value Handler
+  // 🧾 Input change
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prevData) => ({
-      ...prevData,
+    setFormData((prev) => ({
+      ...prev,
       [name]: value,
     }));
   };
 
-  // Submit Handler
-  const handleSubmit = async (e) => {
+  // 🧠 Manual Signup
+  const handleSubmit = (e) => {
     e.preventDefault();
 
-    // ----- Validations -----
     if (
       !formData.email ||
       !formData.username ||
       !formData.password ||
       !formData.fullName
     ) {
-      toast.error("All Fields Are Required");
+      toast.error("All fields are required.");
       return;
     }
 
@@ -69,63 +69,103 @@ function AuthenticationForm() {
     }
 
     if (!formData.email.includes("@")) {
-      toast.error("Invalid Email Address");
+      toast.error("Invalid Email Address.");
       return;
     }
 
     if (formData.password.length < 8) {
-      toast.error("Password should be at least 8 characters long");
+      toast.error("Password must be at least 8 characters long.");
       return;
     }
 
-    try {
-      // Prepare data for backend (you can send file if API supports it)
-      const payload = new FormData();
-      payload.append("fullName", formData.fullName);
-      payload.append("username", formData.username);
-      payload.append("email", formData.email);
-      payload.append("password", formData.password);
-      if (formData.file) {
-        payload.append("profileImage", formData.file);
-      }
+    const payload = new FormData();
+    payload.append("fullName", formData.fullName);
+    payload.append("username", formData.username);
+    payload.append("email", formData.email);
+    payload.append("password", formData.password);
+    if (formData.file) payload.append("profileImage", formData.file);
 
-      const res = await axios.post(
-        "https://play-front-backend.vercel.app/api/auth/signup",
-        payload,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
-
-      toast.success(res?.data?.message || "Registration Successful!");
-      console.log("Sign-Up Response:", res.data);
-
-      // Cleanup and reset form
-      if (formData.profileImage) {
-        URL.revokeObjectURL(formData.profileImage);
-      }
-
-      setFormData({
-        profileImage: null,
-        fullName: "",
-        username: "",
-        email: "",
-        password: "",
+    axios
+      .post("https://play-front-backend.vercel.app/api/auth/signup", payload)
+      .then((res) => {
+        toast.success(res?.data?.message || "Registration Successful!");
+        if (formData.profileImage) URL.revokeObjectURL(formData.profileImage);
+        setFormData({
+          profileImage: null,
+          fullName: "",
+          username: "",
+          email: "",
+          password: "",
+          file: null,
+        });
+      })
+      .catch((err) => {
+        console.error("Sign-Up API Error:", err);
+        toast.error(
+          err?.response?.data?.error || "Sign-up failed. Please try again."
+        );
       });
-    } catch (err) {
-      console.error("Sign-Up API Error:", err);
-      toast.error(
-        err?.response?.data?.error || "Sign-up failed. Please try again."
-      );
-    }
   };
+
+  // 🟢 Google Success
+  const handleGoogleSuccess = (tokenResponse) => {
+    axios
+      .get("https://www.googleapis.com/oauth2/v3/userinfo", {
+        headers: { Authorization: `Bearer ${tokenResponse.access_token}` },
+      })
+      .then((response) => {
+        const googleUser = {
+          email: response.data.email,
+          fullName: response.data.name,
+          profileImage: response.data.picture,
+        };
+
+        setFormData((prev) => ({
+          ...prev,
+          fullName: googleUser.fullName || "",
+          email: googleUser.email || "",
+          username: googleUser.email.split("@")[0] || "",
+          profileImage: googleUser.profileImage || null,
+        }));
+
+        toast.info("Google account info filled! You can complete signup.");
+
+        // Send to backend for signup/login
+        axios
+          .post("http://localhost:3000/api/auth/google", googleUser)
+          .then((res) => {
+            if (res.data.success) {
+              localStorage.setItem("token", res.data.token);
+            } else {
+              toast.error("Google authentication failed.");
+            }
+          })
+          .catch((error) => {
+            console.error("Google API Error:", error);
+            toast.error("Backend Google authentication failed.");
+          });
+      })
+      .catch((error) => {
+        console.error("Google Auth failed:", error);
+        toast.error("Google authentication failed.");
+      });
+  };
+
+  // 🔴 Google Error
+  const handleGoogleError = () => {
+    toast.error("Google Sign-In was cancelled or failed.");
+  };
+
+  // 🟡 Custom Google Login hook
+  const login = useGoogleLogin({
+    onSuccess: handleGoogleSuccess,
+    onError: handleGoogleError,
+  });
 
   return (
     <form onSubmit={handleSubmit} className="text-white">
       <div className="mt-5 space-y-4">
-        {/* Profile Image Upload */}
+        {/* 🖼 Profile Image Upload */}
         <div className="flex justify-center">
           <div className="relative w-24 h-24 p-0.5 border-2 border-red-600 rounded-full overflow-hidden">
             <div
@@ -155,7 +195,7 @@ function AuthenticationForm() {
           </div>
         </div>
 
-        {/* Full Name Input */}
+        {/* 🧍 Full Name */}
         <div className="flex flex-col w-full">
           <label htmlFor="fullName">Full Name</label>
           <input
@@ -169,7 +209,7 @@ function AuthenticationForm() {
           />
         </div>
 
-        {/* Username Input */}
+        {/* 🧑 Username */}
         <div className="flex flex-col w-full">
           <label htmlFor="username">Username</label>
           <input
@@ -183,7 +223,7 @@ function AuthenticationForm() {
           />
         </div>
 
-        {/* Email Input */}
+        {/* 📧 Email */}
         <div className="flex flex-col w-full">
           <label htmlFor="email">Email</label>
           <input
@@ -197,7 +237,7 @@ function AuthenticationForm() {
           />
         </div>
 
-        {/* Password Input */}
+        {/* 🔐 Password */}
         <div className="flex flex-col w-full">
           <label htmlFor="password">Password</label>
           <div className="relative">
@@ -223,7 +263,7 @@ function AuthenticationForm() {
           </div>
         </div>
 
-        {/* Submit Button */}
+        {/* 🧾 Submit */}
         <div>
           <button
             type="submit"
@@ -240,8 +280,11 @@ function AuthenticationForm() {
           <span className="w-[25%] border-t border-white/50"></span>
         </div>
 
-        {/* Google Login */}
-        <div className="py-3 px-1 text-center bg-white transition-colors hover:bg-white/95 text-black rounded-sm cursor-pointer">
+        {/* 🟡 Custom Google Button */}
+        <div
+          onClick={() => login()}
+          className="py-3 px-1 text-center bg-white transition-colors hover:bg-white/95 text-black rounded-sm cursor-pointer"
+        >
           <div className="flex items-center justify-center gap-3 text-lg text-red-500 font-medium">
             <FaGoogle className="w-5 h-5" /> Continue With Google
           </div>

@@ -100,7 +100,7 @@ function User_Header() {
 
         {/* Deals */}
         <NavLink
-          to={"deals"}
+          to={"/deals"}
           className={({ isActive }) =>
             `text-lg transition-colors font-medium ${
               isActive ? "text-red-600" : "text-white hover:text-red-600"
@@ -112,7 +112,7 @@ function User_Header() {
 
         {/* Up-Coming Games */}
         <NavLink
-          to={"upcoming-games"}
+          to={"/upcoming-games"}
           className={({ isActive }) =>
             `text-lg transition-colors font-medium ${
               isActive ? "text-red-600" : "text-white hover:text-red-600"
@@ -247,7 +247,7 @@ function User_Header() {
 
               {/* Deals */}
               <NavLink
-                to={"deals"}
+                to={"/deals"}
                 onClick={() => setMenuToggle(false)}
                 className={({ isActive }) =>
                   `text-lg font-medium rounded-md px-3 py-2 transition-colors ${
@@ -262,7 +262,7 @@ function User_Header() {
 
               {/* Upcoming Games */}
               <NavLink
-                to={"upcoming-games"}
+                to={"/upcoming-games"}
                 onClick={() => setMenuToggle(false)}
                 className={({ isActive }) =>
                   `text-lg font-medium rounded-md px-3 py-2 transition-colors ${
