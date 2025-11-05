@@ -12,6 +12,7 @@ function User_Header() {
   const [profile, setProfile] = useState(false);
   const [menuToggle, setMenuToggle] = useState(false);
   const navigate = useNavigate();
+  const [role, setRole] = useState("admin");
 
   const wishListRedirectFunc = (e) => {
     e.preventDefault();
@@ -50,7 +51,7 @@ function User_Header() {
   return (
     <div className="section flex items-center justify-between bg-gray-900 shadow-xl py-3">
       {/* Logo */}
-      <NavLink to={"/"} className="text-2xl text-white font-medium">
+      <NavLink to={"/"} className="text-2xl font-medium">
         PlayFront
       </NavLink>
 
@@ -61,7 +62,7 @@ function User_Header() {
           to={"/"}
           className={({ isActive }) =>
             `text-lg transition-colors font-medium ${
-              isActive ? "text-red-600" : "text-white hover:text-red-600"
+              isActive ? "text-red-600" : "hover:text-red-600"
             }`
           }
         >
@@ -74,7 +75,7 @@ function User_Header() {
           className={`relative text-lg cursor-pointer flex items-center gap-1 font-medium ${
             categoryToggle
               ? "text-red-600"
-              : "text-white hover:text-red-600 transition-colors"
+              : "hover:text-red-600 transition-colors"
           }`}
           onClick={() => setCategoryToggle(!categoryToggle)}
         >
@@ -86,10 +87,10 @@ function User_Header() {
           />
           {/* Dropdown Menu */}
           {categoryToggle && (
-            <ul className="absolute z-10 top-full left-0 mt-2 bg-white/20 backdrop-blur-md rounded-lg shadow-lg p-2 w-40">
+            <ul className="absolute z-10 top-full left-0 mt-2 bg-white/20 backdrop-blur-md rounded-lg shadow-lg p-2 w-40 text-white">
               {userHeader_data.map((category, i) => (
                 <Link to={`/category/${category.path}`} key={i}>
-                  <li className="hover:bg-red-600/20  text-white hover:text-red-600 transition-colors font-medium px-3 py-1 rounded-md cursor-pointer">
+                  <li className="hover:bg-red-600/20 hover:text-red-600 transition-colors font-medium px-3 py-1 rounded-md cursor-pointer">
                     {category.text}
                   </li>
                 </Link>
@@ -103,7 +104,7 @@ function User_Header() {
           to={"/deals"}
           className={({ isActive }) =>
             `text-lg transition-colors font-medium ${
-              isActive ? "text-red-600" : "text-white hover:text-red-600"
+              isActive ? "text-red-600" : "hover:text-red-600"
             }`
           }
         >
@@ -115,24 +116,40 @@ function User_Header() {
           to={"/upcoming-games"}
           className={({ isActive }) =>
             `text-lg transition-colors font-medium ${
-              isActive ? "text-red-600" : "text-white hover:text-red-600"
+              isActive ? "text-red-600" : "hover:text-red-600"
             }`
           }
         >
           <li>UpComing Games</li>
         </NavLink>
+
+        {/* Admin-Dashboard */}
+        {role === "admin" ? (
+          <NavLink
+            to={"/e452b7e4/admin/"}
+            className={({ isActive }) =>
+              `text-lg transition-colors font-medium ${
+                isActive ? "text-red-600" : "hover:text-red-600"
+              }`
+            }
+          >
+            <li>Admin Dashboard</li>
+          </NavLink>
+        ) : (
+          ""
+        )}
       </ul>
 
       {/* Extra Icons */}
       <ul className="lg:flex hidden items-center justify-center gap-5">
         <button
-          className="text-white hover:text-red-600 transition-colors hover:bg-red-600/20 grid place-items-center w-10 h-10 rounded-md"
+          className="hover:text-red-600 transition-colors hover:bg-red-600/20 grid place-items-center w-10 h-10 rounded-md"
           onClick={wishListRedirectFunc}
         >
           <FaHeart />
         </button>
         <button
-          className="text-white hover:text-red-600 transition-colors hover:bg-red-600/20 grid place-items-center w-10 h-10 rounded-md"
+          className="hover:text-red-600 transition-colors hover:bg-red-600/20 grid place-items-center w-10 h-10 rounded-md"
           onClick={profileRedirectFunc}
         >
           <FaUser />
@@ -183,7 +200,7 @@ function User_Header() {
             <div className="text-center mb-5">
               <NavLink
                 to={"/"}
-                className="text-3xl font-bold text-white tracking-wide"
+                className="text-3xl font-bold tracking-wide"
                 onClick={() => setMenuToggle(false)}
               >
                 <span className="text-red-600">Play</span>Front
@@ -274,6 +291,24 @@ function User_Header() {
               >
                 UpComing Games
               </NavLink>
+
+              {/* Admin-Dashboard */}
+              {role === "admin" ? (
+                <NavLink
+                  to={"/e452b7e4/admin/"}
+                  className={({ isActive }) =>
+                    `text-lg font-medium rounded-md px-3 py-2 transition-colors ${
+                      isActive
+                        ? "bg-red-600 text-white"
+                        : "text-gray-300 hover:bg-red-600/10 hover:text-red-500"
+                    }`
+                  }
+                >
+                  <li>Admin Dashboard</li>
+                </NavLink>
+              ) : (
+                ""
+              )}
             </ul>
           </div>
 

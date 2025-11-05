@@ -7,9 +7,14 @@ import WishList_Page from "./pages/main/WishList_Page";
 import UpcomingGames_Page from "./pages/main/UpcomingGames_Page";
 import Deals_Page from "./pages/main/Deals_Page";
 import CategoryLayout from "./layouts/CategoryLayout";
-import Categories_Component from "./components/main/Categories_Component";
+import Categories_Component from "./components/main/category/Categories_Component";
 import Home_Page from "./pages/main/Home_Page";
 import UserProfile from "./pages/main/profile/UserProfile";
+import AdminLayout from "./layouts/AdminLayout";
+import Dashboard from './pages/admin/Dashboard';
+import UserManagement from './pages/admin/UserManagement';
+import GamesManagement from './pages/admin/GamesManagement';
+import DealsManagement from './pages/admin/DealsManagement';
 
 function App() {
   const router = createBrowserRouter([
@@ -78,6 +83,28 @@ function App() {
         {
           path: "racing",
           element: <Categories_Component />,
+        },
+      ],
+    },
+    {
+      path: "/e452b7e4/admin/",
+      element: <AdminLayout />,
+      children: [
+        {
+          index: true,
+          element: <Dashboard />,
+        },
+        {
+          path: "users",
+          element: <UserManagement />,
+        },
+        {
+          path: "games",
+          element: <GamesManagement />,
+        },
+        {
+          path: "deals",
+          element: <DealsManagement />,
         },
       ],
     },

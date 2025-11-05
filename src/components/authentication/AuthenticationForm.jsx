@@ -19,12 +19,10 @@ function AuthenticationForm() {
   });
   const [showPassword, setShowPassword] = useState(false);
 
-  // 📸 File input click
   const handleClick = () => {
     inputRef.current.click();
   };
 
-  // 📤 File upload
   const handleChange = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -40,7 +38,6 @@ function AuthenticationForm() {
     }
   };
 
-  // 🧾 Input change
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
@@ -49,7 +46,6 @@ function AuthenticationForm() {
     }));
   };
 
-  // 🧠 Manual Signup
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -89,6 +85,7 @@ function AuthenticationForm() {
       .post("https://play-front-backend.vercel.app/api/auth/signup", payload)
       .then((res) => {
         toast.success(res?.data?.message || "Registration Successful!");
+        localStorage.setItem("sessionToken", res.data.token)
         if (formData.profileImage) URL.revokeObjectURL(formData.profileImage);
         setFormData({
           profileImage: null,
@@ -107,7 +104,6 @@ function AuthenticationForm() {
       });
   };
 
-  // 🟢 Google Success
   const handleGoogleSuccess = (tokenResponse) => {
     axios
       .get("https://www.googleapis.com/oauth2/v3/userinfo", {
@@ -129,8 +125,6 @@ function AuthenticationForm() {
         }));
 
         toast.info("Google account info filled! You can complete signup.");
-
-        // Send to backend for signup/login
         axios
           .post("http://localhost:3000/api/auth/google", googleUser)
           .then((res) => {
@@ -151,12 +145,10 @@ function AuthenticationForm() {
       });
   };
 
-  // 🔴 Google Error
   const handleGoogleError = () => {
     toast.error("Google Sign-In was cancelled or failed.");
   };
 
-  // 🟡 Custom Google Login hook
   const login = useGoogleLogin({
     onSuccess: handleGoogleSuccess,
     onError: handleGoogleError,
@@ -165,7 +157,6 @@ function AuthenticationForm() {
   return (
     <form onSubmit={handleSubmit} className="text-white">
       <div className="mt-5 space-y-4">
-        {/* 🖼 Profile Image Upload */}
         <div className="flex justify-center">
           <div className="relative w-24 h-24 p-0.5 border-2 border-red-600 rounded-full overflow-hidden">
             <div
@@ -195,7 +186,6 @@ function AuthenticationForm() {
           </div>
         </div>
 
-        {/* 🧍 Full Name */}
         <div className="flex flex-col w-full">
           <label htmlFor="fullName">Full Name</label>
           <input
@@ -209,7 +199,6 @@ function AuthenticationForm() {
           />
         </div>
 
-        {/* 🧑 Username */}
         <div className="flex flex-col w-full">
           <label htmlFor="username">Username</label>
           <input
@@ -223,7 +212,6 @@ function AuthenticationForm() {
           />
         </div>
 
-        {/* 📧 Email */}
         <div className="flex flex-col w-full">
           <label htmlFor="email">Email</label>
           <input
@@ -237,7 +225,6 @@ function AuthenticationForm() {
           />
         </div>
 
-        {/* 🔐 Password */}
         <div className="flex flex-col w-full">
           <label htmlFor="password">Password</label>
           <div className="relative">
@@ -263,7 +250,6 @@ function AuthenticationForm() {
           </div>
         </div>
 
-        {/* 🧾 Submit */}
         <div>
           <button
             type="submit"
@@ -280,7 +266,6 @@ function AuthenticationForm() {
           <span className="w-[25%] border-t border-white/50"></span>
         </div>
 
-        {/* 🟡 Custom Google Button */}
         <div
           onClick={() => login()}
           className="py-3 px-1 text-center bg-white transition-colors hover:bg-white/95 text-black rounded-sm cursor-pointer"
