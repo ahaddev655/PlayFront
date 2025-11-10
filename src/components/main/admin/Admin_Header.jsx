@@ -21,9 +21,9 @@ function Admin_Header() {
         setHeading("Games Management");
         break;
       default:
-        setHeading(""); // optional fallback
+        setHeading("Admin Profile");
     }
-  }, [path.pathname]); // <-- Runs every time the route changes
+  }, [path.pathname]);
 
   return (
     <div className="section flex items-center justify-between bg-gray-900 shadow-xl py-3 w-full">
