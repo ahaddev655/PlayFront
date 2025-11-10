@@ -11,10 +11,11 @@ import Categories_Component from "./components/main/category/Categories_Componen
 import Home_Page from "./pages/main/Home_Page";
 import UserProfile from "./pages/main/profile/UserProfile";
 import AdminLayout from "./layouts/AdminLayout";
-import Dashboard from './pages/admin/Dashboard';
-import UserManagement from './pages/admin/UserManagement';
-import GamesManagement from './pages/admin/GamesManagement';
-import DealsManagement from './pages/admin/DealsManagement';
+import Dashboard from "./pages/admin/Dashboard";
+import UserManagement from "./pages/admin/UserManagement";
+import GamesManagement from "./pages/admin/GamesManagement";
+import DealsManagement from "./pages/admin/DealsManagement";
+import AdminProfile from "./pages/admin/AdminProfile";
 
 function App() {
   const router = createBrowserRouter([
@@ -105,6 +106,10 @@ function App() {
         {
           path: "deals",
           element: <DealsManagement />,
+        },
+        {
+          path: "profile",
+          element: <AdminProfile />,
         },
       ],
     },
